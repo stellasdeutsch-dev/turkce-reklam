@@ -4,15 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Reklam · Турецкий язык рекламы</title>
-<meta name="description" content="Лексика рекламы на турецком: indirim, kampanya, 1 alana 1 bedava, reklamı atla. Разбор в стиле гоночного постера, озвучка, тренажёры и платформа Alterna Timur A0 → C1.">
+<meta name="description" content="Лексика рекламы на турецком в 3D: крути болид, наклеивай спонсоров, переворачивай вывески, пропускай рекламу. Озвучка, тренажёры и платформа Alterna Timur A0 → C1.">
 <meta name="theme-color" content="#D50A0A">
-<meta property="og:title" content="REKLAM · Турецкий язык рекламы">
-<meta property="og:description" content="6 кругов, 70+ слов, озвучка и квалификация. Потом честная реклама без трюков.">
+<meta property="og:title" content="REKLAM · Турецкий язык рекламы в 3D">
+<meta property="og:description" content="6 кругов, 3D-болид, озвучка и квалификация. Потом честная реклама без трюков.">
 <meta property="og:image" content="media/ph-route-map.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Manrope:wght@400;600;800&family=Oswald:wght@500;700&family=Unbounded:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=7">
+<link rel="stylesheet" href="styles.css?v=12">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 </head>
 <body>
 
@@ -25,7 +32,6 @@
       <path class="c-pod" d="M300 124l210 2 40 8-10 30H300z"/>
       <path class="c-halo" d="M404 104q42-40 96 0" fill="none" stroke-width="9" stroke-linecap="round"/>
       <circle class="c-helmet" cx="448" cy="98" r="15"/>
-      <path class="c-visor" d="M440 92h20v7h-20z"/>
       <path class="c-fwing" d="M630 170h150v10l-150 4z"/>
       <path class="c-floor" d="M110 176h560v10H110z"/>
       <g transform="translate(200 176)"><g class="c-wheel"><circle r="44"/><circle class="c-rim" r="27"/><path class="c-spoke" d="M-27 0h54M0-27v54"/></g></g>
@@ -36,10 +42,11 @@
 </svg>
 
 <div class="track" aria-hidden="true"><div class="track-line"></div><svg class="track-car" viewBox="0 0 800 240"><use href="#car"/></svg></div>
+<canvas class="fx" id="fx" aria-hidden="true"></canvas>
 
 <header class="topbar">
   <div class="lockup"><b>ALTERNA</b><i></i><span>TÜRKÇE</span></div>
-  <a class="topbar-cta" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-cta="top">$30 · навсегда</a>
+  <a class="topbar-cta" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener">$30 · навсегда</a>
 </header>
 
 <main>
@@ -51,82 +58,70 @@
   <svg class="jet j2" viewBox="0 0 100 60" aria-hidden="true"><use href="#jet"/></svg>
   <svg class="jet j3" viewBox="0 0 100 60" aria-hidden="true"><use href="#jet"/></svg>
 
-  <div class="ribbon r1" aria-hidden="true"><div>REKLAM HAFTASI · 2026 ANTALYA GRAND PRIX · REKLAM HAFTASI · 2026 ANTALYA GRAND PRIX · REKLAM HAFTASI · 2026 ANTALYA GRAND PRIX ·</div></div>
-
   <div class="hero-type" data-par="0.15">
     <span class="kicker">Турецкий · лексика · A2–B1</span>
     <h1 class="mega"><span class="l">R</span><span class="l">E</span><span class="l">K</span><span class="l">L</span><span class="l">A</span><span class="l">M</span></h1>
     <p class="mega-sub">язык, который кричит<br>с каждой витрины</p>
   </div>
 
-  <div class="collage" data-par="-0.12" aria-hidden="true">
-    <div class="stk st-yellow" style="--r:-9deg">%50<br><small>İNDİRİM</small></div>
-    <div class="stk st-white" style="--r:6deg">1 ALANA<br>1 BEDAVA</div>
-    <div class="stk st-black" style="--r:-4deg">SON GÜN!</div>
+  <div class="stage3d hero3d">
+    <canvas id="c-hero" aria-label="3D-болид и рекламные таблички. Крути пальцем, тапай таблички"></canvas>
+    <p class="hint3d"><span>👆</span> крути болид · тапай таблички</p>
+    <!-- fallback without WebGL -->
+    <div class="collage no3d-only" aria-hidden="true">
+      <div class="stk st-yellow" style="--r:-9deg">%50<br><small>İNDİRİM</small></div>
+      <div class="stk st-white" style="--r:6deg">1 ALANA<br>1 BEDAVA</div>
+      <div class="stk st-black" style="--r:-4deg">SON GÜN!</div>
+    </div>
+    <svg class="hero-car no3d-only" viewBox="0 0 800 240" aria-hidden="true"><use href="#car"/></svg>
   </div>
 
-  <svg class="hero-car" viewBox="0 0 800 240" aria-hidden="true"><use href="#car"/></svg>
-
-  <div class="hero-pols" data-par="-0.06" aria-hidden="true">
-    <figure class="hpol" style="--r:-7deg"><img src="media/ph-cizgi-card.webp" alt=""><figcaption>Alterna Çizgi</figcaption></figure>
-    <figure class="hpol" style="--r:5deg"><img src="media/ph-pod-card.webp" alt=""><figcaption>Podcasts!</figcaption></figure>
-    <figure class="hpol" style="--r:-2deg"><img src="media/ph-kitap.webp" alt=""><figcaption>Kitap</figcaption></figure>
-  </div>
-
-  <div class="ribbon r2" aria-hidden="true"><div>RACE WEEK · KAÇIRMA! · RACE WEEK · KAÇIRMA! · RACE WEEK · KAÇIRMA! · RACE WEEK · KAÇIRMA! · RACE WEEK · KAÇIRMA! ·</div></div>
+  <div class="ribbon r2" aria-hidden="true"><div data-marq="-1">RACE WEEK · KAÇIRMA! · REKLAM HAFTASI · 2026 ANTALYA GRAND PRIX · RACE WEEK · KAÇIRMA! · REKLAM HAFTASI · 2026 ANTALYA GRAND PRIX ·</div></div>
 </section>
 
 <section class="paper torn-top hook">
   <div class="wrap">
-    <p class="script">Тимур, Анталья</p>
-    <div class="story" data-r>
-      <p>Первое турецкое слово, которое я выучил в Анталье, было не <b>merhaba</b>.</p>
-      <p class="big">Было <mark>İNDİRİM</mark>.</p>
-      <p>Оно висело на каждой второй витрине. Красными буквами. С восклицательным знаком.</p>
-      <p>Я неделю думал, что это сеть магазинов. <span class="aside">(Очень большая сеть. Она была везде.)</span></p>
-      <p>Оказалось, indirim это скидка. И на ней стоит вся турецкая улица.</p>
-      <p>Сегодня разбираем язык рекламы. Шесть кругов. Семьдесят с лишним слов. В конце квалификация.</p>
-      <p><b>Lights out. Поехали.</b></p>
+    <div class="hook-grid">
+      <div class="story" data-r>
+        <p class="script">Тимур, Анталья</p>
+        <p>Первое турецкое слово, которое я выучил в Анталье:</p>
+        <p class="big"><mark class="scramble" data-text="İNDİRİM">İNDİRİM</mark></p>
+        <p>Неделю думал, что это сеть магазинов. <span class="aside">(Она была везде.)</span> Оказалось, скидка.</p>
+      </div>
+      <div class="hero-pols" aria-hidden="true">
+        <figure class="hpol" data-tilt style="--r:-7deg"><img src="media/ph-cizgi-card.webp" alt=""><figcaption>Alterna Çizgi</figcaption></figure>
+        <figure class="hpol" data-tilt style="--r:5deg"><img src="media/ph-pod-card.webp" alt=""><figcaption>Podcasts!</figcaption></figure>
+        <figure class="hpol" data-tilt style="--r:-2deg"><img src="media/ph-kitap.webp" alt=""><figcaption>Kitap</figcaption></figure>
+      </div>
     </div>
-    <ul class="chips-stats" data-r>
-      <li><b>6</b> кругов</li><li><b>70+</b> слов</li><li><b>🔊</b> озвучка</li><li><b>20</b> минут</li>
-    </ul>
-    <div class="hero-btns" data-r>
-      <a class="btn btn-ink" href="#lap1">Старт гонки ↓</a>
-      <a class="btn btn-ghost" href="#reklam-arasi">Сразу к платформе</a>
-    </div>
+    <ol class="laps-nav" data-r>
+      <li><a href="#lap1"><b>01</b>Болид</a></li><li><a href="#lap2"><b>02</b>Витрина</a></li><li><a href="#lap3"><b>03</b>Ловушки</a></li>
+      <li><a href="#lap4"><b>04</b>Телефон</a></li><li><a href="#lap5"><b>05</b>Слоган</a></li><li><a href="#quali"><b>06</b>Квала</a></li>
+    </ol>
   </div>
 </section>
 
-<!-- ============ LAP 1 · ASTON GREEN ============ -->
+<!-- ============ LAP 1 · 3D LIVERY ============ -->
 <section class="lap s-aston torn-top" id="lap1">
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">01</span>
-      <div><span class="lap-tag">LAP 01 / 06</span><h2 class="d">Болид это рекламный щит</h2></div>
+      <span class="lap-tag">LAP 01 / 06</span><h2 class="d">Болид это рекламный щит</h2>
     </header>
-    <div class="lead" data-r>
-      <p>Посмотри на любой болид Формулы-1. Машины почти не видно. Одни логотипы.</p>
-      <p>F1 это самая дорогая реклама на планете. И неплохой учебник турецкого.</p>
-      <p><b>Наклей спонсоров на болид.</b> Каждая наклейка это слово. Тапни и слушай.</p>
-    </div>
+    <p class="lead-1" data-r>Наклей 8 спонсоров. Каждый спонсор это слово.</p>
 
     <div class="garage" data-r>
       <div class="garage-top"><span class="script lime">Собери ливрею!</span><span class="counter"><b id="liv-n">0</b>/8</span></div>
-      <div class="livery-stage">
-        <svg class="livery-car livery-aston" viewBox="0 0 800 240" role="img" aria-label="Болид с наклейками спонсоров">
-          <use href="#car"/>
-          <g id="decals"></g>
-        </svg>
+      <div class="stage3d livery3d">
+        <canvas id="c-livery" aria-label="3D-болид для наклеек"></canvas>
+        <p class="hint3d"><span>↔</span> крути</p>
+        <svg class="livery-car no3d-only" viewBox="0 0 800 240" aria-hidden="true"><use href="#car"/></svg>
       </div>
       <div class="decal-chips" id="decal-chips"></div>
-      <article class="word-card" id="liv-card" aria-live="polite">
-        <p class="wc-empty">Тапни на любое слово ↑</p>
-      </article>
+      <article class="word-card" id="liv-card" aria-live="polite"><p class="wc-empty">Тапни слово ↑</p></article>
     </div>
 
-    <h3 class="sub-d" data-r>Ещё в боксах команды</h3>
-    <div class="mini-grid" id="box-words"></div>
+    <div class="wchips" id="box-words" data-r></div>
   </div>
 </section>
 
@@ -136,26 +131,18 @@
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">02</span>
-      <div><span class="lap-tag">LAP 02 / 06</span><h2 class="d">Витрина. Что кричит улица</h2></div>
+      <span class="lap-tag">LAP 02 / 06</span><h2 class="d">Что кричит улица</h2>
     </header>
-    <div class="lead" data-r>
-      <p>Выходишь в Анталье из дома. Идёшь до кафе. Четыреста метров.</p>
-      <p>По дороге на тебя наорали двенадцать витрин. <span class="aside">(Я считал. Делать было нечего.)</span></p>
-      <p>Переворачивай таблички. Узнаешь, что именно они кричат.</p>
-    </div>
+    <p class="lead-1" data-r>12 витрин по дороге до кафе. Переворачивай.</p>
     <div class="signs" id="signs"></div>
-
-    <div class="where" data-r>
-      <h3 class="sub-d">Где всё это висит</h3>
-      <div class="where-row" id="where"></div>
-    </div>
+    <div class="wchips dark" id="where" data-r></div>
   </div>
 </section>
 
 <aside class="pitboard" data-r>
   <div class="wrap pb-in">
     <span class="pb-tag">PIT BOARD</span>
-    <p>Это <b>1 блок лексики</b>. На платформе их <b>131</b>. По темам, с живыми фразами.</p>
+    <p>Это <b>1</b> блок лексики. Внутри их <b class="cnt" data-to="131">0</b>.</p>
     <a href="#platforma" class="pb-link">Что внутри →</a>
   </div>
 </aside>
@@ -165,34 +152,27 @@
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">03</span>
-      <div><span class="lap-tag">LAP 03 / 06</span><h2 class="d">Ложные друзья на трассе</h2></div>
+      <span class="lap-tag">LAP 03 / 06</span><h2 class="d">Ловушки на трассе</h2>
     </header>
-    <div class="lead" data-r>
-      <p>Некоторые слова выглядят знакомо. И именно поэтому врут.</p>
-      <p>Слева то, что ты подумаешь. Справа то, что имеют в виду турки. Жми «Кажется / На деле».</p>
-    </div>
+    <p class="lead-1" data-r>Выглядят знакомо. Врут. Тапни карточку.</p>
     <div class="ff" id="ff"></div>
   </div>
 </section>
 
-<!-- ============ LAP 4 · ALFA DARK ============ -->
+<!-- ============ LAP 4 · PHONE ============ -->
 <section class="lap s-alfa torn-top" id="lap4">
   <div class="checker" aria-hidden="true"></div>
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">04</span>
-      <div><span class="lap-tag">LAP 04 / 06</span><h2 class="d">Реклама в телефоне</h2></div>
+      <span class="lap-tag">LAP 04 / 06</span><h2 class="d">Реклама в телефоне</h2>
     </header>
-    <div class="lead" data-r>
-      <p>Улица это полбеды. Главная реклама живёт в телефоне.</p>
-      <p>Поставь интерфейс на турецкий. Через неделю будешь знать все эти слова. <span class="aside">(Через две начнёшь нажимать их на автомате.)</span></p>
-      <p>Попробуй. Дождись кнопки и пропусти рекламу.</p>
-    </div>
+    <p class="lead-1" data-r>Дождись кнопки. Пропусти рекламу.</p>
 
     <div class="phone-wrap" data-r>
-      <div class="phone">
+      <div class="phone" data-tilt>
         <div class="ph-notch"></div>
-        <div class="ph-screen" id="ph-screen">
+        <div class="ph-screen">
           <div class="ph-ad" id="ph-ad">
             <div class="ph-ad-top"><span class="ph-badge">Sponsorlu</span><span>SİMİT+ · 0:<b id="ph-t">05</b></span></div>
             <div class="ph-ad-body">
@@ -200,23 +180,22 @@
               <p class="ph-ad-sub">2 simit alana<br><b>çay bedava!</b></p>
               <div class="ph-simit" aria-hidden="true"></div>
             </div>
+            <div class="ph-prog"><i id="ph-prog"></i></div>
             <button class="ph-skip" id="ph-skip" disabled>Reklamı atla <span id="ph-skip-n">5</span></button>
           </div>
           <div class="ph-video" id="ph-video" hidden>
-            <div class="ph-player">▶</div>
+            <div class="ph-player"><span>▶</span></div>
             <p class="ph-title">Türkçe öğren: reklam kelimeleri</p>
             <p class="ph-meta">Alterna · 12 B görüntüleme</p>
             <div class="ph-actions" id="ph-actions"></div>
-            <p class="ph-hint">Тапай кнопки ↑</p>
+            <p class="ph-hint">тапай ↑</p>
           </div>
         </div>
       </div>
-      <article class="word-card dark" id="ph-card" aria-live="polite"><p class="wc-empty">Пока идёт реклама, выучи первое слово: <b>Sponsorlu</b> значит «спонсорский пост». Реклама, которая притворяется другом.</p></article>
+      <article class="word-card dark" id="ph-card" aria-live="polite"><p class="wc-empty"><b>Sponsorlu</b> значит «спонсорский». Реклама, которая притворяется другом.</p></article>
     </div>
 
-    <h3 class="sub-d" data-r>Весь словарь ленты</h3>
-    <div class="mini-grid" id="online-words"></div>
-    <p class="note" data-r>Заметил? Реклама почти всегда говорит тебе <b>«ты»</b>: al, tıkla, kaçırma. Бренды притворяются друзьями. Об этом на пит-стопе.</p>
+    <div class="wchips" id="online-words" data-r></div>
   </div>
 </section>
 
@@ -225,54 +204,51 @@
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">⏱</span>
-      <div><span class="lap-tag">PIT STOP · 2.4 сек</span><h2 class="d">Грамматика за один пит-стоп</h2></div>
+      <span class="lap-tag">PIT STOP · 2.4 сек</span><h2 class="d">Грамматика за пит-стоп</h2>
     </header>
-    <div class="lead" data-r><p>Четыре правила. Без них рекламу читаешь как шифр.</p></div>
 
     <div class="rules">
       <article class="rule" data-r>
         <span class="rule-n">1</span>
-        <h3>%50 читается «yüzde elli»</h3>
-        <p>Турки ставят знак процента <b>перед</b> числом. И читают так же: yüzde (процент) + число. <span class="aside">(Будто скидка важнее цифры. В рекламе так и есть.)</span></p>
+        <h3>%50 = yüzde elli</h3>
+        <p>Процент пишут <b>перед</b> числом.</p>
         <div class="pct">
           <div class="pct-big"><span id="pct-sign">%</span><span id="pct-num">50</span></div>
           <p class="pct-read"><span id="pct-tr">yüzde elli</span> <button class="say" data-say-el="pct-tr" aria-label="Озвучить">🔊</button></p>
           <p class="pct-ru" id="pct-ru">[юзде́ элли́]</p>
           <input type="range" min="5" max="100" step="5" value="50" id="pct-range" aria-label="Процент скидки">
-          <p class="tiny">Двигай ползунок. <b>yüzde yüz</b> турки говорят, когда уверены. Как наше «сто процентов».</p>
         </div>
       </article>
 
       <article class="rule" data-r>
         <span class="rule-n">2</span>
         <h3>1 alana 1 bedava</h3>
-        <p><b>alan</b> это «тот, кто берёт» (от almak). <b>alan + a</b> значит «берущему». Дословно: <i>берущему один, один даром</i>.</p>
-        <div class="formula"><span>[число]</span><span class="op">+</span><span class="hl">alana</span><span class="op">+</span><span>[число]</span><span class="op">+</span><span class="hl">bedava</span></div>
-        <ul class="ex">
-          <li><b>2 alana 1 bedava</b> <button class="say" data-say="2 alana 1 bedava">🔊</button><br>Возьми два, третий бесплатно.</li>
-          <li><b>3 al 2 öde</b> <button class="say" data-say="3 al 2 öde">🔊</button><br>Бери три, плати за два. <span class="aside">(öde = плати. Самое грустное слово в любом магазине.)</span></li>
-        </ul>
+        <p><b>alan-a</b> = «берущему». Берущему один, один даром.</p>
+        <div class="formula"><span>1</span><span class="hl">alana</span><span>1</span><span class="hl">bedava</span></div>
+        <div class="wchips light">
+          <button class="wchip" data-say="2 alana 1 bedava"><b>2 alana 1 bedava</b><span>бери два, третий даром</span></button>
+          <button class="wchip" data-say="3 al 2 öde"><b>3 al 2 öde</b><span>бери три, плати за два</span></button>
+        </div>
       </article>
 
       <article class="rule" data-r>
         <span class="rule-n">3</span>
         <h3>Kaçırma или Kaçırmayın</h3>
-        <p>Молодёжный бренд говорит на «ты». Банк и авиакомпания на «вы». Переключи и посмотри, как меняется окончание.</p>
+        <p>Бренд говорит «ты». Банк говорит «вы».</p>
         <div class="toggle" role="group" aria-label="Форма обращения">
           <button class="tg on" data-tv="sen">SEN · ты</button><button class="tg" data-tv="siz">SİZ · вы</button>
         </div>
         <ul class="tv-list" id="tv-list"></ul>
-        <p class="tiny">Смотри на <b>Takip et → Takip edin</b>. Перед гласной t превращается в d. Турецкий любит мягкость.</p>
       </article>
 
       <article class="rule" data-r>
         <span class="rule-n">4</span>
         <h3>vermek, yapmak или reklamını yapmak</h3>
-        <ul class="ex">
-          <li><b>reklam vermek</b> <button class="say" data-say="Gazeteye reklam verdik.">🔊</button><br>разместить рекламу (заплатить). <i>Gazeteye reklam verdik.</i> Мы дали рекламу в газету.</li>
-          <li><b>reklam yapmak</b> <button class="say" data-say="Bu ajans çok iyi reklam yapıyor.">🔊</button><br>делать рекламу. <i>Bu ajans çok iyi reklam yapıyor.</i> Это агентство делает отличную рекламу.</li>
-          <li><b>kendi reklamını yapmak</b> <button class="say" data-say="Yine kendi reklamını yapıyor.">🔊</button><br>пиарить себя, хвастаться. <i>Yine kendi reklamını yapıyor.</i> Опять себя пиарит. <span class="aside">(У каждого есть такой друг.)</span></li>
-        </ul>
+        <div class="wchips light">
+          <button class="wchip" data-say="Gazeteye reklam verdik."><b>reklam vermek</b><span>разместить (заплатить)</span></button>
+          <button class="wchip" data-say="Bu ajans iyi reklam yapıyor."><b>reklam yapmak</b><span>делать рекламу</span></button>
+          <button class="wchip" data-say="Yine kendi reklamını yapıyor."><b>kendi reklamını yapmak</b><span>пиарить себя 😏</span></button>
+        </div>
       </article>
     </div>
   </div>
@@ -283,28 +259,26 @@
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">05</span>
-      <div><span class="lap-tag">LAP 05 / 06</span><h2 class="d">Ты рекламщик. Сделай слоган</h2></div>
+      <span class="lap-tag">LAP 05 / 06</span><h2 class="d">Сделай слоган</h2>
     </header>
-    <div class="lead" data-r>
-      <p>Хватит читать рекламу. Пиши сам. Собери слоган из трёх частей и послушай.</p>
-      <p>Заодно увидишь падеж: <b>-larda / -lerde</b> значит «на все…». <span class="aside">(Гармония гласных работает даже на скидках.)</span></p>
-    </div>
+    <p class="lead-1" data-r>Три части. Одна реклама. Слушай.</p>
     <div class="builder" data-r>
-      <div class="b-row"><span class="b-lbl">1 · срочность</span><div class="b-opts" data-part="u"></div></div>
-      <div class="b-row"><span class="b-lbl">2 · товар</span><div class="b-opts" data-part="p"></div></div>
-      <div class="b-row"><span class="b-lbl">3 · предложение</span><div class="b-opts" data-part="o"></div></div>
-      <div class="billboard" id="billboard">
+      <div class="b-row"><div class="b-opts" data-part="u"></div></div>
+      <div class="b-row"><div class="b-opts" data-part="p"></div></div>
+      <div class="b-row"><div class="b-opts" data-part="o"></div></div>
+      <div class="billboard" id="billboard" data-tilt>
         <div class="bb-inner">
           <p class="bb-tr" id="bb-tr" lang="tr"></p>
           <p class="bb-ru" id="bb-ru"></p>
+          <span class="bb-bulbs" aria-hidden="true"></span>
         </div>
         <div class="bb-legs" aria-hidden="true"><i></i><i></i></div>
       </div>
       <div class="b-actions">
         <button class="btn btn-white" id="bb-say">🔊 Прочитать</button>
-        <button class="btn btn-ghost-w" id="bb-rand">🎲 Случайный</button>
+        <button class="btn btn-ghost-w" id="bb-rand">🎲 Рандом</button>
       </div>
-      <p class="tiny w" id="bb-gram"></p>
+      <p class="tiny w center" id="bb-gram"></p>
     </div>
   </div>
 </section>
@@ -314,15 +288,13 @@
   <div class="wrap">
     <header class="lap-head" data-r>
       <span class="lap-no">06</span>
-      <div><span class="lap-tag">LAP 06 / 06 · QUALIFYING</span><h2 class="d">Квалификация</h2></div>
+      <span class="lap-tag">LAP 06 / 06 · QUALIFYING</span><h2 class="d">Квалификация</h2>
     </header>
-    <div class="lead" data-r><p>Десять вопросов. Время идёт. Результат это твоя позиция на старте. <span class="aside">(Поул дают не за скорость. За точность.)</span></p></div>
+    <p class="lead-1" data-r>10 вопросов. Твоё место на старте.</p>
 
     <div class="quiz" id="quiz" data-r>
       <div class="lights" id="lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-      <div class="q-start" id="q-start">
-        <button class="btn btn-red big" id="q-go">Старт квалификации</button>
-      </div>
+      <div class="q-start" id="q-start"><button class="btn btn-red big" id="q-go">Старт</button></div>
       <div class="q-body" id="q-body" hidden>
         <div class="q-top"><span id="q-idx">1/10</span><span class="q-time" id="q-time">0.0</span></div>
         <div class="q-bar"><i id="q-bar"></i></div>
@@ -346,21 +318,18 @@
 <!-- ============ CHEAT SHEET ============ -->
 <section class="paper torn-top cheat" id="cheat">
   <div class="wrap">
-    <div class="cheat-poster" data-r>
+    <div class="cheat-poster" data-r data-tilt>
       <span class="tape t1"></span><span class="tape t2"></span>
-      <p class="script">Запоминалка. Сохрани скрин</p>
+      <p class="script">Сохрани скрин</p>
       <h2 class="d ink">Шпаргалка</h2>
       <ul class="cheat-list">
         <li><b>reklam</b> продаёт. <b>ilan</b> сообщает.</li>
-        <li><b>indirim</b> скидка. <b>kampanya</b> акция. <b>fırsat</b> выгода.</li>
-        <li><b>bedava</b> даром. <b>ücretsiz</b> бесплатно по-официальному.</li>
-        <li><b>%50</b> это yüzde elli. Процент впереди.</li>
-        <li><b>1 alana 1 bedava</b>. Берущему один, один даром.</li>
-        <li><b>Kaçırma</b> на ты. <b>Kaçırmayın</b> на вы.</li>
-        <li><b>reklam vermek</b> платишь. <b>reklamını yapmak</b> хвастаешься.</li>
-        <li><b>Reklamı atla</b>. Любимая кнопка человечества.</li>
+        <li><b>indirim</b> скидка. <b>kampanya</b> акция.</li>
+        <li><b>bedava</b> даром. <b>ücretsiz</b> бесплатно.</li>
+        <li><b>%50</b> = yüzde elli.</li>
+        <li><b>Kaçırma</b> ты. <b>Kaçırmayın</b> вы.</li>
+        <li><b>Reklamı atla</b>. Любимая кнопка.</li>
       </ul>
-      <p class="cheat-end">Витрина это бесплатный учебник. Просто читай её медленнее, чем турки.</p>
     </div>
   </div>
 </section>
@@ -371,11 +340,7 @@
   <div class="wrap">
     <div class="onair" data-r><span class="dot"></span> REKLAM ARASI</div>
     <h2 class="d huge" data-r>А теперь реклама.<br><span class="outline">Честная.</span></h2>
-    <div class="lead w" data-r>
-      <p>Ты только что разобрал все трюки турецкой рекламы. Son gün. Stoklarla sınırlı. Kaçırma.</p>
-      <p>Значит, на тебе они больше не работают.</p>
-      <p>Поэтому продавать буду без них.</p>
-    </div>
+    <p class="lead-1 w" data-r>Ты знаешь все трюки. Значит, продаю без них.</p>
     <button class="skip-joke" id="skip-joke" data-r>Reklamı atla ⏭</button>
     <p class="skip-msg" id="skip-msg" aria-live="polite"></p>
   </div>
@@ -383,26 +348,22 @@
 
 <section class="s-black nope">
   <div class="wrap">
-    <h3 class="sub-d w" data-r>Чего здесь не будет</h3>
     <ul class="stamps" id="stamps">
-      <li data-r><s>SON GÜN!</s><span class="stamp">YOK</span><p>Цена не сгорит в полночь. Таймеров нет.</p></li>
-      <li data-r><s>STOKLARLA SINIRLI</s><span class="stamp">YOK</span><p>Это цифровой доступ. Хватит всем.</p></li>
-      <li data-r><s>%90 İNDİRİM</s><span class="stamp">YOK</span><p>Нет зачёркнутой цены, которой никогда не было.</p></li>
-      <li data-r><s>AYLIK ABONELİK</s><span class="stamp">YOK</span><p>Нет подписки, которая тихо списывает деньги каждый месяц.</p></li>
-      <li data-r><s>12 TAKSİT</s><span class="stamp">YOK</span><p>Не нужно. Один платёж и всё.</p></li>
+      <li data-r><s>SON GÜN!</s><span class="stamp">YOK</span><p>Таймеров нет.</p></li>
+      <li data-r><s>STOKLARLA SINIRLI</s><span class="stamp">YOK</span><p>Хватит всем.</p></li>
+      <li data-r><s>%90 İNDİRİM</s><span class="stamp">YOK</span><p>Нет фейковой зачёркнутой цены.</p></li>
+      <li data-r><s>AYLIK ABONELİK</s><span class="stamp">YOK</span><p>Нет ежемесячной подписки.</p></li>
+      <li data-r><s>12 TAKSİT</s><span class="stamp">YOK</span><p>Один платёж. Всё.</p></li>
     </ul>
-    <p class="note w center" data-r><b>YOK</b> значит «нет». Держи бонусное слово. Осталось только то, что внутри.</p>
   </div>
 </section>
 
 <section class="paper torn-top pain">
   <div class="wrap">
+    <div class="tabs-chaos" id="chaos" aria-hidden="true"></div>
     <div class="story" data-r>
-      <p class="big">Материалов не мало. Их <mark>слишком много</mark>.</p>
-      <p>YouTube. Телеграм. Приложения. Сериалы. Ты открываешь десять вкладок.</p>
-      <p>Через сорок минут закрываешь все. Выучил ноль. <span class="aside">(Знакомо? Я так прожил первый семестр.)</span></p>
+      <p class="big">10 вкладок.<br>40 минут.<br><mark>Выучил ноль.</mark></p>
       <p>Проблема не в контенте. <b>Проблема в порядке.</b></p>
-      <p>Поэтому я собрал всё в одно место. И разложил по уровням.</p>
     </div>
   </div>
 </section>
@@ -411,24 +372,35 @@
 <section class="product s-aston torn-top" id="platforma">
   <div class="wrap">
     <div class="team-lockup" data-r><b>ALTERNA</b><i></i><span>TIMUR · A0 → C1</span></div>
-    <h2 class="d huge" data-r>Всё уже собрано.<br><span class="lime">Искать не надо.</span></h2>
+    <h2 class="d huge" data-r>Всё собрано.<br><span class="lime">Искать не надо.</span></h2>
     <div class="grid6">
-      <article class="stat st1" data-r><span class="pos">01</span><b class="cnt" data-to="128">0</b><h3>гайдов по грамматике</h3><p>Разбираю, как здесь. Без «откройте страницу 42».</p></article>
-      <article class="stat st2" data-r><span class="pos">02</span><b class="cnt" data-to="131">0</b><h3>блок лексики по темам</h3><p>Не список слов, а то, что реально говорят. Ровно как этот гайд.</p></article>
-      <article class="stat st3" data-r><span class="pos">03</span><b class="cnt" data-to="109">0</b><h3>интерактивных ресурсов</h3><p>Слова, тексты, диалоги, аудирование, игры на запоминание.</p></article>
-      <article class="stat st4" data-r><span class="pos">04</span><b class="cnt" data-to="32">0</b><h3>блока по экзаменам</h3><p>A1, A2, B1, B2, C1. По каждому отдельно.</p></article>
-      <article class="stat st5" data-r><span class="pos">05</span><b class="cnt" data-to="36">0</b><h3>гайдов по работе</h3><p>Для тех, кто ищет работу или уже пашет.</p></article>
-      <article class="stat st6" data-r><span class="pos">06</span><b class="cnt" data-to="1716">0</b><h3>материалов по уровням</h3><p>Фильмы, книги, мультики, подкасты, приложения, YouTube. Открываешь свой уровень и берёшь.</p></article>
+      <article class="stat st1" data-r data-tilt><span class="pos">01</span><b class="cnt" data-to="128">0</b><h3>гайдов по грамматике</h3><p>Без «откройте страницу 42».</p></article>
+      <article class="stat st2" data-r data-tilt><span class="pos">02</span><b class="cnt" data-to="131">0</b><h3>блок лексики по темам</h3><p>То, что реально говорят.</p></article>
+      <article class="stat st3" data-r data-tilt><span class="pos">03</span><b class="cnt" data-to="109">0</b><h3>интерактивных ресурсов</h3><p>Слова, тексты, диалоги, аудирование, игры.</p></article>
+      <article class="stat st4" data-r data-tilt><span class="pos">04</span><b class="cnt" data-to="32">0</b><h3>блока по экзаменам</h3><p>A1, A2, B1, B2, C1 отдельно.</p></article>
+      <article class="stat st5" data-r data-tilt><span class="pos">05</span><b class="cnt" data-to="36">0</b><h3>гайдов по работе</h3><p>Ищешь или уже пашешь.</p></article>
+      <article class="stat st6" data-r data-tilt><span class="pos">06</span><b class="cnt" data-to="1716">0</b><h3>материалов по уровням</h3><p>Фильмы, книги, мультики, подкасты, приложения, YouTube.</p></article>
     </div>
   </div>
+</section>
+
+<!-- proof: 3D ring -->
+<section class="ring-sec s-black torn-top" id="proof3d">
+  <div class="wrap">
+    <h2 class="d" data-r>Живые экраны.<br><span class="lime">Крути.</span></h2>
+  </div>
+  <div class="stage3d ring3d">
+    <canvas id="c-ring" aria-label="3D-карусель скриншотов платформы. Свайпай, тапни карточку"></canvas>
+    <p class="hint3d"><span>↔</span> свайп · тап = крупно</p>
+  </div>
+  <div class="reel" id="reel"></div>
 </section>
 
 <!-- proof: videos -->
 <section class="proof s-papaya torn-top" id="proof">
   <div class="hatch" aria-hidden="true"></div>
   <div class="wrap">
-    <h2 class="d" data-r>Это не мокапы.<br>Это живые экраны.</h2>
-    <p class="lead-1" data-r>Запись экрана без монтажа. Тапай вкладки.</p>
+    <h2 class="d" data-r>Запись экрана.<br>Без монтажа.</h2>
     <div class="vtabs" id="vtabs" role="tablist" data-r></div>
     <div class="vframe" data-r>
       <span class="tape t1"></span>
@@ -436,26 +408,15 @@
       <video id="vplayer" muted playsinline loop preload="none" poster="media/v-cizgi.webp"></video>
       <div class="vcap" id="vcap"></div>
     </div>
-  </div>
-</section>
-
-<!-- proof: phone reel -->
-<section class="reel-sec paper torn-top">
-  <div class="wrap">
-    <h2 class="d ink" data-r>С телефона. Как будешь учить ты</h2>
-    <p class="lead-1 ink" data-r>Листай вбок. Тапни, чтобы открыть крупно.</p>
-  </div>
-  <div class="reel" id="reel"></div>
-  <div class="wrap">
     <div class="args" id="args"></div>
   </div>
 </section>
 
-<!-- route / travel quest -->
+<!-- route -->
 <section class="route s-williams torn-top" id="route">
   <div class="wrap">
     <span class="lap-tag" data-r>TRAVEL-QUEST</span>
-    <h2 class="d" data-r>Ты не проходишь уровни.<br>Ты едешь по Турции</h2>
+    <h2 class="d" data-r>Уровни это маршрут по Турции</h2>
     <div class="route-map" data-r>
       <svg viewBox="0 0 340 200" class="rmap" aria-hidden="true">
         <path id="rpath" d="M40 60 C 90 20, 120 150, 150 140 S 230 170, 250 150 S 290 60, 300 70" fill="none" stroke="#fff" stroke-width="4" stroke-dasharray="8 8"/>
@@ -463,33 +424,31 @@
         <g id="rcar"><use href="#car" x="-32" y="-12" width="64" height="20"/></g>
       </svg>
       <ol class="stops">
-        <li><b>Стамбул</b><span>A0–A1 · первые фразы и алфавит</span></li>
-        <li><b>Измир</b><span>A2 · быт, магазины, соседи</span></li>
-        <li><b>Анталья</b><span>B1–B2 · свободный разговор на любую тему</span></li>
-        <li><b>Анкара</b><span>C1 · учёба и работа по-турецки</span></li>
+        <li><b>Стамбул</b><span>A0–A1 · первые фразы</span></li>
+        <li><b>Измир</b><span>A2 · быт и соседи</span></li>
+        <li><b>Анталья</b><span>B1–B2 · свободный разговор</span></li>
+        <li><b>Анкара</b><span>C1 · учёба и работа</span></li>
       </ol>
     </div>
-    <p class="note w" data-r>Финиш там, где турецкий перестаёт быть иностранным.</p>
   </div>
 </section>
 
-<!-- plan builder -->
+<!-- plan -->
 <section class="plan s-pit torn-top" id="plan">
   <div class="wrap">
-    <h2 class="d" data-r>Собери свою стратегию</h2>
-    <p class="lead-1" data-r>Три вопроса. Как у инженеров перед гонкой.</p>
+    <h2 class="d" data-r>Собери стратегию</h2>
     <div class="plan-box" data-r>
-      <p class="p-lbl">1 · Где ты сейчас</p>
+      <p class="p-lbl">1 · Уровень</p>
       <div class="p-opts" data-plan="lvl"></div>
-      <p class="p-lbl">2 · Зачем тебе турецкий</p>
+      <p class="p-lbl">2 · Цель</p>
       <div class="p-opts" data-plan="goal"></div>
-      <p class="p-lbl">3 · Выбери шины</p>
+      <p class="p-lbl">3 · Шины</p>
       <div class="p-opts tyres" data-plan="tyre"></div>
       <article class="strategy" id="strategy">
         <span class="tape t1"></span>
         <p class="script">Твоя стратегия</p>
         <div id="strat-body"></div>
-        <a class="btn btn-red wide" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-cta="plan">Забрать эту стратегию · $30</a>
+        <a class="btn btn-red wide" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener">Забрать стратегию · $30</a>
       </article>
     </div>
   </div>
@@ -499,17 +458,14 @@
 <section class="price s-red torn-top" id="price">
   <div class="speed" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
-    <p class="kicker" data-r>Цена. Одна. Без звёздочек</p>
-    <p class="price-big" data-r>$30</p>
+    <p class="kicker" data-r>Одна цена. Без звёздочек</p>
+    <p class="price-big" data-r id="price-big">$30</p>
     <div class="math" data-r>
-      <p><b>$30 ÷ 12</b> = <b>$2.5</b> в месяц.</p>
-      <p>Это только первый год. Дальше бесплатно, потому что доступ <b>навсегда</b>.</p>
-      <p class="aside w">(Меньше, чем уходит на кофе, пока ищешь, что бы посмотреть на турецком.)</p>
+      <p><b>$30 ÷ 12 = $2.5</b> в месяц за первый год.</p>
+      <p>Дальше бесплатно. Доступ <b>навсегда</b>.</p>
     </div>
-    <ul class="ticks" data-r>
-      <li>Один платёж</li><li>Без подписки</li><li>Доступ навсегда</li><li>Все уровни A0 → C1</li>
-    </ul>
-    <a class="btn btn-white big wide" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-cta="price" data-r>Приобрести доступ →</a>
+    <ul class="ticks" data-r><li>Один платёж</li><li>Без подписки</li><li>Навсегда</li><li>A0 → C1</li></ul>
+    <a class="btn btn-white big wide magnet" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-r>Приобрести доступ →</a>
   </div>
 </section>
 
@@ -517,19 +473,16 @@
 <section class="about paper torn-top">
   <div class="wrap">
     <div class="driver" data-r>
-      <div class="driver-card">
+      <div class="driver-card" data-tilt>
         <span class="tape t1"></span>
         <div class="driver-no">TA</div>
         <p class="script">Timur Akhmetov</p>
         <p class="driver-meta">Akdeniz Üniversitesi · Antalya</p>
       </div>
-      <div class="story">
-        <p>Я Тимур. Учусь на электроинженера в университете Akdeniz, Анталья.</p>
-        <p>Перед этим год на подготовительном курсе TÖMER. Сейчас турецкий на C1.</p>
-        <p>Работал техническим переводчиком с русского на турецкий. Стажировался в консульстве Казахстана в Анталье.</p>
-        <p>Говорю на казахском, русском, английском (IELTS 7.5) и турецком.</p>
-        <p><b>Я знаю, где турецкий ломает мозг. Потому что он ломал мой.</b></p>
-      </div>
+      <ul class="badges">
+        <li><b>TÖMER</b>C1</li><li><b>IELTS</b>7.5</li><li><b>4</b>языка</li><li><b>RU→TR</b>техперевод</li>
+      </ul>
+      <p class="about-line">Я знаю, где турецкий ломает мозг. <b>Потому что он ломал мой.</b></p>
     </div>
   </div>
 </section>
@@ -537,19 +490,19 @@
 <!-- faq -->
 <section class="faq s-black torn-top">
   <div class="wrap">
-    <h2 class="d" data-r>Вопросы из техзоны</h2>
+    <h2 class="d" data-r>Техзона</h2>
     <div class="faq-list" id="faq"></div>
   </div>
 </section>
 
 <!-- final -->
 <section class="final s-red torn-top" id="final">
-  <div class="speed" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="stage3d flag3d"><canvas id="c-flag" aria-label="Клетчатый флаг. Тапни"></canvas></div>
   <div class="wrap center">
     <div class="lights big-lights" id="final-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
     <p class="final-go" id="final-go">IŞIKLAR SÖNDÜ.<br><span>HAYDİ!</span></p>
-    <p class="final-sub">Alterna Timur A0 → C1. 128 гайдов, 131 блок лексики, 1716 материалов. $30 один раз.</p>
-    <a class="btn btn-white big wide pulse" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-cta="final">Приобрести доступ · $30</a>
+    <p class="final-sub">128 гайдов · 131 блок лексики · 1716 материалов · $30 один раз</p>
+    <a class="btn btn-white big wide pulse magnet" href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener">Приобрести доступ · $30</a>
     <p class="script final-script">Buyrun. Bu reklam değil, davet.</p>
     <p class="tiny w">«Пожалуйста. Это не реклама, это приглашение».</p>
   </div>
@@ -564,12 +517,13 @@
 
 <div class="sticky" id="sticky" aria-hidden="true">
   <div><b>Alterna Timur A0 → C1</b><span>$30 · один раз · навсегда</span></div>
-  <a href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" data-cta="sticky" tabindex="-1">Забрать →</a>
+  <a href="https://app.lava.top/products/2cdbb9f8-e65b-443e-8d2c-4fea4c121e41" target="_blank" rel="noopener" tabindex="-1">Забрать →</a>
 </div>
 
 <dialog class="lightbox" id="lightbox"><button class="lb-x" id="lb-x" aria-label="Закрыть">✕</button><img id="lb-img" alt=""><p id="lb-cap"></p></dialog>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=12"></script>
+<script type="module" src="three-scenes.js?v=12"></script>
 </body>
 </html>
