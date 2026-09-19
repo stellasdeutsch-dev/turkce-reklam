@@ -207,6 +207,7 @@
     ['Всё есть на YouTube бесплатно', 'Разбросано. Ты платишь не за контент, а за порядок.'],
     ['Сколько времени в день?', '20 минут. Каждый день.'],
     ['Правда навсегда?', 'Да. $30 один раз. Без подписки.'],
+    ['Я из Казахстана. Как купить?', 'Напиши мне в <a href="https://wa.me/message/RCHLEOGGLZ5OC1" target="_blank" rel="noopener">WhatsApp</a>. Оформлю доступ напрямую.'],
   ];
 
   /* ---------- expose for 3D module ---------- */
@@ -465,7 +466,7 @@
   renderPlan(false);
 
   /* ---------- faq ---------- */
-  $('#faq').innerHTML = FAQ.map(([q, a]) => `<details data-r><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join('');
+  $('#faq').innerHTML = FAQ.map(([q, a]) => `<details data-r><summary>${esc(q)}</summary><p>${a}</p></details>`).join('');
 
   /* =========================================================
      MOTION
@@ -568,7 +569,7 @@
     const show = y > hero.offsetHeight * .8 && fin.getBoundingClientRect().top > innerHeight * .6;
     sticky.classList.toggle('show', show);
     sticky.setAttribute('aria-hidden', String(!show));
-    $('a', sticky).tabIndex = show ? 0 : -1;
+    $$('a', sticky).forEach(x => { x.tabIndex = show ? 0 : -1; });
   }
   addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   addEventListener('resize', onScroll);

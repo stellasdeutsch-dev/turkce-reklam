@@ -714,3 +714,17 @@ html.no3d .stage3d canvas,html.no3d .hint3d,html.no3d .ring3d{display:none}
 @media (prefers-reduced-motion:reduce){.ctab{opacity:1;transform:none}}
 .ffc .ff-think{position:static;inset:auto}
 .ffc .ff-real{top:56px}
+
+/* WhatsApp · Kazakhstan */
+.wa-ic{width:1.25em;height:1.25em;flex:none}
+.btn-wa{background:#25D366;color:#063;box-shadow:4px 4px 0 rgba(0,0,0,.35);gap:.5em}
+.btn-wa .wa-ic{color:#fff}
+.kz{max-width:520px;margin:18px auto 0;background:rgba(0,0,0,.22);border:2px dashed rgba(255,255,255,.55);border-radius:10px;padding:14px;text-align:left;position:relative}
+.kz p{margin:0 0 10px;padding-right:44px;font-size:.98rem}
+.kz-flag{position:absolute;right:12px;top:10px;font-size:1.8rem;animation:bob 2s ease-in-out infinite}
+.wa-line{display:inline-flex;align-items:center;gap:.45em;margin-top:14px;font-weight:800;color:#fff;background:rgba(0,0,0,.25);padding:.6em 1em;border-radius:99px;text-decoration:none}
+.wa-line .wa-ic{color:#25D366}
+.sticky .st-wa{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;background:#25D366;color:#fff;border-radius:6px;padding:.35em .55em;text-decoration:none;transform:skewX(-8deg)}
+.sticky .st-wa small{font-family:var(--f-c);font-weight:700;font-size:.62rem;letter-spacing:.08em;opacity:1;line-height:1}
+.sticky{gap:8px}
+.faq-list details p a{color:#25D366;font-weight:800}
